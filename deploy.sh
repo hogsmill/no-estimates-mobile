@@ -4,7 +4,7 @@ if [ "$1" == "-f" ]; then
   FORCE=true
 fi
 
-PORT=3007
+PORT=3018
 PWD=`pwd`
 APP=`basename $PWD`
 GIT=`git pull`

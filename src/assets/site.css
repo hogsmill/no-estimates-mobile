@@ -1,0 +1,99 @@
+#app {
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  font-size: 14px;
+}
+
+button {
+  margin-right: 5px;
+}
+
+input {
+  width: 40px;
+  padding: 5px;
+  margin-bottom: 2px;
+}
+
+.distribution {
+  height: 20px;
+  width: 300px;
+  margin: 2px 0 0 6px;
+  background-color: #f4511e;
+  display: inline-block;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.mr-neg-10 {
+  margin-right: -10px !important;
+}
+
+.no-padding-r-l {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.width-50 {
+  width: 50px !important;
+}
+
+.navbar {
+  color: #ffffff;
+  background-color: #f4511e;
+  padding: 0;
+  line-height: 1.42857143 !important;
+  letter-spacing: 4px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #ffffff;
+  padding: 14px;
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li.active a {
+  color: #f4511e !important;
+  background-color: #fff !important;
+  padding: 14px;
+}
+
+.btn {
+  padding: 0.25rem 0.6rem;
+}
+
+.btn-site-primary {
+  color: #fff;
+  background-color: #f4511e;
+  border-color: #f4511e;
+}
+
+.btn-site-primary:hover {
+  color: #f4511e;
+  background-color: #ffffff;
+  border-color: #f4511e;
+}
+
+.update-role {
+  margin-left: 6px;
+}
+
+.control input[type=checkbox] {
+  margin-left: -2rem
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.vm--modal {
+  color: #444;
+  padding: 12px;
+}
+
+.smaller-font {
+  font-size: smaller;
+}

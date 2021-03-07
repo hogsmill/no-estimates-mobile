@@ -47,12 +47,27 @@ export default {
     console.log('Connecting to: ' + connStr)
     this.socket = io(connStr)
 
+    const gameName = localStorage.getItem('gameName')
+    const teamName = localStorage.getItem('teamName')
+    if (gameName && teamName) {
+      this.$store.dispatch('updateGameName', gameName)
+      this.socket.emit('loadGame', {gameName: gameName})
+      this.$store.dispatch('updateTeamName', teamName)
+      this.socket.emit('loadTeam', {gameName: gameName, teamName, teamName})
+    }
+
+    const myName = localStorage.getItem('myName')
+    if (myName) {
+      this.$store.dispatch('updateMyName', JSON.parse(myName))
+    }
+
     this.socket.on('loadGame', (data) => {
       this.$store.dispatch('loadGame', data)
     })
 
     this.socket.on('loadTeam', (data) => {
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
+        console.log(data.members)
         this.$store.dispatch('loadTeam', data)
       }
     })

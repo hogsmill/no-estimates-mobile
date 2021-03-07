@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div v-if="myName.id">
     <div>
-      <h3 v-if="myName.id">
+      <h3>
         {{ myName.name }}
-        <span v-for="n in myEffort.assigned" :key="'n-' + n">
-          <div class="mobile-effort full rounded-circle" />
-        </span>
-        <span v-for="a in myEffort.available" :key="'a-' + a">
-          <div class="mobile-effort rounded-circle" />
-        </span>
       </h3>
+      <span v-for="n in myEffort.assigned" :key="'n-' + n">
+        <div class="mobile-effort full rounded-circle" />
+      </span>
+      <span v-for="a in myEffort.available" :key="'a-' + a">
+          <div class="mobile-effort rounded-circle" />
+      </span>
     </div>
     <div v-for="(column, index) in columns" :key="index">
       <div v-if="column.name != 'done'" class="mobile-column" :class="column.name">
@@ -107,6 +107,7 @@ export default {
       return card.effort.design + card.effort.develop + card.effort.test + card.effort.deploy
     },
     iAmThisRole(column) {
+      console.log(column, this.myRole)
       return stringFuns.roleToColumn(this.myRole) == column
     },
     iHaveThisRole(column) {

@@ -78,6 +78,9 @@ module.exports = {
     db.collection('noEstimates').findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
       if (err) throw err
       if (res) {
+        const member = data.myName
+        member.effort = teamFuns.initialEffort()
+        member.otherRoles = []
         res.members.push(data.myName)
         updateTeam(db, io, res)
       }

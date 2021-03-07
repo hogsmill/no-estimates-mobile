@@ -112,20 +112,6 @@ export default {
     }
   },
   created() {
-    const gameName = localStorage.getItem('gameName')
-    const teamName = localStorage.getItem('teamName')
-    if (gameName && teamName) {
-      this.$store.dispatch('updateGameName', gameName)
-      this.socket.emit('loadGame', {gameName: gameName})
-      this.$store.dispatch('updateTeamName', teamName)
-      this.socket.emit('loadTeam', {gameName: gameName, teamName, teamName})
-    }
-
-    const myName = localStorage.getItem('myName')
-    if (myName) {
-      this.$store.dispatch('updateMyName', JSON.parse(myName))
-    }
-
     this.socket.on('updateGames', (data) => {
       this.$store.dispatch('updateGames', data)
     })

@@ -19,13 +19,13 @@ import Setup from './mobile/Setup.vue'
 import Game from './mobile/Game.vue'
 
 export default {
-  props: [
-    'socket'
-  ],
   components: {
     Setup,
     Game
   },
+  props: [
+    'socket'
+  ],
   data() {
     return {
       showSettings: false

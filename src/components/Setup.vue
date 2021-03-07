@@ -4,7 +4,9 @@
       <td>Game Name: </td>
       <td>
         <select id="available-games" class="form-control" @change="setGameName()">
-          <option value=""> -- Select -- </option>
+          <option value="">
+            -- Select --
+          </option>
           <option v-for="(game, gindex) in availableGames" :key="gindex" :selected="game == gameName">
             {{ game }}
           </option>
@@ -17,7 +19,7 @@
     <tr>
       <td>Team: </td>
       <td>
-        <select id="team-name" class="form-control" @change="setTeamName()" >
+        <select id="team-name" class="form-control" @change="setTeamName()" :disabled="!gameName">
           <option value="">
             -- Select --
           </option>
@@ -32,15 +34,24 @@
 
     <tr>
       <td>My Name: </td>
-        <td>
-        <select id="my-name-select" class="form-control">
-        <option value="">
+      <td>
+        <select id="my-name-select" class="form-control" @change="selectMyName()" :disabled="!teamName">
+          <option value="">
             -- Select --
           </option>
-          <option v-for="(member, mindex) in members" :key="mindex" :selected="member.id == myName.id">
+          <option v-for="(member, mindex) in members" :key="mindex" :selected="member.id == myName.id" :value="member.id">
             {{ member.name }}
           </option>
-        </select>
+        </select> or
+      </td>
+    </tr>
+    <tr>
+      <td />
+      <td>
+        <input type="text" id="my-name">
+        <button class="btn btn-info btn-sm" @click="addMyName()" :disabled="!teamName">
+          Add
+        </button>
       </td>
     </tr>
 
@@ -49,7 +60,7 @@
     <tr>
       <td>My Role: </td>
       <td>
-        <select id="role-select" class="form-control">
+        <select id="role-name" class="form-control" @change="selectMyRole()" :disabled="!myName.id" :value="myRole">
           <option value="">
             -- Select --
           </option>
@@ -63,6 +74,8 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
+
 export default {
   props: [
     'socket'
@@ -108,6 +121,11 @@ export default {
       this.socket.emit('loadTeam', {gameName: gameName, teamName, teamName})
     }
 
+    const myName = localStorage.getItem('myName')
+    if (myName) {
+      this.$store.dispatch('updateMyName', JSON.parse(myName))
+    }
+
     this.socket.on('updateGames', (data) => {
       this.$store.dispatch('updateGames', data)
     })
@@ -117,15 +135,60 @@ export default {
   methods: {
     setGameName() {
       const gameName = document.getElementById('available-games').value
-      localStorage.setItem('gameName', gameName)
-      this.$store.dispatch('updateGameName', gameName)
-      this.socket.emit('loadGame', {gameName: gameName})
+      if (gameName) {
+        localStorage.setItem('gameName', gameName)
+        this.$store.dispatch('updateGameName', gameName)
+        this.socket.emit('loadGame', {gameName: gameName})
+      } else {
+        localStorage.removeItem('gameName', '')
+        this.$store.dispatch('updateGameName', '')
+        localStorage.removeItem('teamName', '')
+        this.$store.dispatch('updateTeamName', '')
+        localStorage.removeItem('myName')
+        this.$store.dispatch('updateMyName', {})
+      }
     },
     setTeamName() {
       const teamName = document.getElementById('team-name').value
-      localStorage.setItem('teamName', teamName)
-      this.$store.dispatch('updateTeamName', teamName)
-      this.socket.emit('loadTeam', {gameName: this.gameName, teamName: teamName})
+      if (teamName) {
+        localStorage.setItem('teamName', teamName)
+        this.$store.dispatch('updateTeamName', teamName)
+        this.socket.emit('loadTeam', {gameName: this.gameName, teamName: teamName})
+      } else {
+        localStorage.removeItem('teamName', teamName)
+        this.$store.dispatch('updateTeamName', teamName)
+        localStorage.removeItem('myName')
+        this.$store.dispatch('updateMyName', {})
+      }
+    },
+    selectMyName() {
+      const memberId = document.getElementById('my-name-select').value
+      if (memberId) {
+        const myName = this.members.find(function(m) {
+          return m.id == memberId
+        })
+        localStorage.setItem('myName', JSON.stringify(myName))
+        this.$store.dispatch('updateMyName', myName)
+      } else {
+        localStorage.removeItem('myName')
+        this.$store.dispatch('updateMyName', {})
+      }
+    },
+    addMyName() {
+      const myName = {
+        id: uuidv4(),
+        name: document.getElementById('my-name').value,
+        captain: false
+      }
+      localStorage.setItem('myName', JSON.stringify(myName))
+      this.$store.dispatch('updateMyName', myName)
+      this.socket.emit('addMyName', {gameName: this.gameName, teamName: this.teamName, myName: myName})
+    },
+    selectMyRole() {
+      const myRole = document.getElementById('role-name').value
+      if (myRole) {
+        this.socket.emit('setMyRole', {gameName: this.gameName, teamName: this.teamName, myName: this.myName, myRole: myRole})
+      }
     }
   }
 }
@@ -135,5 +198,13 @@ export default {
   .setup {
     margin: 0 auto;
     padding: 6px;
+
+    input {
+      width: initial;
+    }
+
+    button {
+      margin-left: 6px;
+    }
   }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <h3 v-if="myName.id">{{ myName.name }}
+      <h3 v-if="myName.id">
+        {{ myName.name }}
         <span v-for="n in myEffort.assigned" :key="'n-' + n">
           <div class="mobile-effort full rounded-circle" />
         </span>
@@ -12,7 +13,11 @@
     </div>
     <div v-for="(column, index) in columns" :key="index">
       <div v-if="column.name != 'done'" class="mobile-column" :class="column.name">
-        <h4 class="mobile-column-header" :class="column.name">{{ columnName(column.name) }}</h4>
+        <h4 class="mobile-column-header" :class="column.name">
+          {{ columnName(column.name) }}
+          <i v-if="iAmThisRole(column.name)" class="fas fa-user" />
+          <i v-if="!iAmThisRole(column.name) && iHaveThisRole(column.name)" class="far fa-user" />
+        </h4>
         <div v-for="(card, cindex) in column.cards" :key="cindex" class="mobile-card">
           <div v-if="card.urgent" class="urgent">
             URGENT
@@ -70,6 +75,7 @@
 </template>
 
 <script>
+import roles from '../lib/roles.js'
 import stringFuns from '../lib/stringFuns.js'
 
 export default {
@@ -79,6 +85,15 @@ export default {
   computed: {
     myName() {
       return this.$store.getters.getMyName
+    },
+    myEffort() {
+      return this.$store.getters.getMyEffort
+    },
+    myRole() {
+      return this.$store.getters.getMyRole
+    },
+    myOtherRoles() {
+      return this.$store.getters.getMyOtherRoles
     },
     columns() {
       return this.$store.getters.getColumns
@@ -90,6 +105,12 @@ export default {
     },
     effortDone(card) {
       return card.effort.design + card.effort.develop + card.effort.test + card.effort.deploy
+    },
+    iAmThisRole(column) {
+      return stringFuns.roleToColumn(this.myRole) == column
+    },
+    iHaveThisRole(column) {
+      return roles.iHaveRole(column, this.myRole, this.myOtherRoles)
     },
     totalEffort(card) {
       return card.design + card.develop + card.test + card.deploy

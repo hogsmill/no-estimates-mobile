@@ -1,5 +1,5 @@
 <template>
-  <div  id="app" class="mobile rounded">
+  <div id="app" class="mobile rounded">
     <div class="header">
       <i class="fas fa-cog" @click="toggleSettings()" />
     </div>

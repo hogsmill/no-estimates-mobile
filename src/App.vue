@@ -6,7 +6,10 @@
     <div v-if="showSettings" class="setup rounded-bottom">
       <Setup :socket="socket" />
     </div>
-    <div v-if="!showSettings" class="game">
+    <div v-if="!showSettings && !myName.id" class="game">
+      <Intro />
+    </div>
+    <div v-if="!showSettings && myName.id" class="game">
       <Game :socket="socket" />
     </div>
   </div>
@@ -15,12 +18,14 @@
 <script>
 import io from 'socket.io-client'
 
+import Intro from './components/Intro.vue'
 import Setup from './components/Setup.vue'
 import Game from './components/Game.vue'
 
 export default {
   name: 'App',
   components: {
+    Intro,
     Setup,
     Game
   },
@@ -35,6 +40,9 @@ export default {
     },
     teamName() {
       return this.$store.getters.getTeamName
+    },
+    myName() {
+      return this.$store.getters.getMyName
     }
   },
   created() {

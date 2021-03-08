@@ -59,14 +59,18 @@ export default {
     }
   },
   created() {
-    let connStr
+    let connStr, gameConnstr
     if (location.hostname == 'localhost') {
       connStr = 'http://localhost:3018'
+      gameConnstr = 'http://localhost:3007'
     } else {
       connStr = 'https://agilesimulations.co.uk:3018'
+      gameConnstr = 'https://agilesimulations.co.uk:3007'
     }
-    console.log('Connecting to: ' + connStr)
+    console.log('Connecting to: ' + connStr + ' (app)')
     this.socket = io(connStr)
+    console.log('Connecting app to: ' + gameConnstr + ' (game)')
+    this.gameSocket = io(gameConnstr)
 
     const gameName = localStorage.getItem('gameName')
     const teamName = localStorage.getItem('teamName')
@@ -87,6 +91,14 @@ export default {
     })
 
     this.socket.on('loadTeam', (data) => {
+      console.log('socket', data)
+      if (this.gameName == data.gameName && this.teamName == data.teamName) {
+        this.$store.dispatch('loadTeam', data)
+      }
+    })
+
+    this.gameSocket.on('loadTeam', (data) => {
+      console.log('gameSocket', data)
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
         this.$store.dispatch('loadTeam', data)
       }

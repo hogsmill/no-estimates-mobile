@@ -3,7 +3,7 @@
     <div class="header" :style="{ 'background-color': getHeaderColor() }">
       <i class="fas fa-user-friends" :class="{' selected': screen == 'thisTeam' }" @click="setScreen('thisTeam')" />
       <i class="fas fa-users" :class="{' selected': screen == 'otherTeams' }" @click="setScreen('otherTeams')" />
-      <i class="fas fa-industry" v-if="true || capabilities && capabilities.autoDeploy.doing" :class="{' selected': screen == 'autoDeploy' }" @click="setScreen('autoDeploy')" />
+      <i class="fas fa-industry" v-if="capabilities && capabilities.autoDeploy.doing" :class="{' selected': screen == 'autoDeploy' }" @click="setScreen('autoDeploy')" />
       <i class="fas fa-cog" @click="toggleSettings()" />
     </div>
     <div v-if="showSettings" class="setup rounded-bottom">

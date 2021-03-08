@@ -227,6 +227,7 @@ export default {
         border: 1px solid;
         font-weight: bold;
         color: #fff;
+        box-shadow: 2px 2px 5px #444;
 
         &.complete {
           border: 1px dashed #aaa;

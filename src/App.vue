@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="mobile rounded">
     <div class="header">
+      <i class="fas fa-user-friends" :class="{' selected': screen == 'thisTeam' }" @click="setScreen('thisTeam')" />
+      <i class="fas fa-users" :class="{' selected': screen == 'otherTeams' }" @click="setScreen('otherTeams')" />
       <i class="fas fa-cog" @click="toggleSettings()" />
     </div>
     <div v-if="showSettings" class="setup rounded-bottom">
@@ -10,7 +12,8 @@
       <Intro />
     </div>
     <div v-if="!showSettings && myName.id" class="game">
-      <Game :socket="socket" />
+      <Game v-if="screen == 'thisTeam'" :socket="socket" />
+      <GameOther v-if="screen == 'otherTeams'" :socket="socket" />
     </div>
   </div>
 </template>
@@ -21,17 +24,20 @@ import io from 'socket.io-client'
 import Intro from './components/Intro.vue'
 import Setup from './components/Setup.vue'
 import Game from './components/Game.vue'
+import GameOther from './components/GameOther.vue'
 
 export default {
   name: 'App',
   components: {
     Intro,
     Setup,
-    Game
+    Game,
+    GameOther
   },
   data() {
     return {
-      showSettings: false
+      showSettings: false,
+      screen: 'thisTeam'
     }
   },
   computed: {
@@ -75,7 +81,6 @@ export default {
 
     this.socket.on('loadTeam', (data) => {
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
-        console.log(data.members)
         this.$store.dispatch('loadTeam', data)
       }
     })
@@ -83,6 +88,9 @@ export default {
   methods: {
     toggleSettings() {
       this.showSettings = !this.showSettings
+    },
+    setScreen(screen) {
+      this.screen = screen
     }
   }
 }
@@ -95,13 +103,22 @@ export default {
     margin: 12px auto;
 
     .header {
-      text-align: right;
       padding: 6px;
       background-color: #ccc;
+      text-align: left;
 
-      .fa-cog {
+      .fas {
         font-size: x-large;
         color: #888;
+        margin-right: 12px;
+
+        &.fa-cog {
+          float: right;
+        }
+
+        &.selected {
+          color: #444;
+        }
       }
     }
   }

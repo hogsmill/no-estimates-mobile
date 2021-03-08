@@ -107,7 +107,6 @@ export default {
       return card.effort.design + card.effort.develop + card.effort.test + card.effort.deploy
     },
     iAmThisRole(column) {
-      console.log(column, this.myRole)
       return stringFuns.roleToColumn(this.myRole) == column
     },
     iHaveThisRole(column) {

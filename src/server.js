@@ -132,23 +132,6 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
 
   socket.on('updateOtherTeamEffort', (data) => { emit('updateOtherTeamEffort', data) })
 
-  socket.on('sendMessage', (data) => { doDb('sendMessage', data) })
-
-  socket.on('sendMessageToFacilitators', (data) => { doDb('sendMessageToFacilitators', data) })
-
-  socket.on('updateMessages', (data) => { doDb('updateMessages', data) })
-
-  socket.on('updateFacilitatorMessages', (data) => { doDb('updateFacilitatorMessages', data) })
-
-  socket.on('answerFacilitatorQuestion', (data) => { doDb('answerFacilitatorQuestion', data) })
-
-  socket.on('updateProjectEstimate', (data) => { doDb('updateProjectEstimate', data) })
-
-  socket.on('updateMVPEstimate', (data) => { doDb('updateMVPEstimate', data) })
-
-  socket.on('updateReEstimate', (data) => { doDb('updateReEstimate', data) })
-
-  socket.on('startAutoDeploy', (data) => { doDb('startAutoDeploy', data) })
 
   socket.on('incrementAutoDeploy', (data) => { doDb('incrementAutoDeploy', data) })
 */

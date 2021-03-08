@@ -4,11 +4,13 @@
       <h3>
         {{ myName.name }}
       </h3>
-      <span v-for="n in myEffort.assigned" :key="'n-' + n">
-        <div class="mobile-effort full rounded-circle" />
-      </span>
-      <span v-for="a in myEffort.available" :key="'a-' + a">
+      <span v-if="myEffort">
+        <span v-for="n in myEffort.assigned" :key="'n-' + n">
+          <div class="mobile-effort full rounded-circle" />
+        </span>
+        <span v-for="a in myEffort.available" :key="'a-' + a">
           <div class="mobile-effort rounded-circle" />
+        </span>
       </span>
     </div>
     <div v-for="(column, index) in columns" :key="index">
@@ -33,7 +35,7 @@
           <table>
             <tr>
               <td>
-                <div class="mobile-card-column design rounded" :class="{ 'complete': card.effort.design >= card.design }" @click="addEffort(card, 'design')">
+                <div class="mobile-card-column design" :class="{ 'complete': card.effort.design >= card.design }" @click="addEffort(card, 'design')">
                   <div>Design</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'design') }" />
@@ -41,7 +43,7 @@
                 </div>
               </td>
               <td>
-                <div class="mobile-card-column develop rounded" :class="{ 'complete': card.effort.develop >= card.develop }" @click="addEffort(card, 'develop')">
+                <div class="mobile-card-column develop" :class="{ 'complete': card.effort.develop >= card.develop }" @click="addEffort(card, 'develop')">
                   <div>Develop</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'develop') }" />
@@ -51,7 +53,7 @@
             </tr>
             <tr>
               <td>
-                <div class="mobile-card-column test rounded" :class="{ 'complete': card.effort.test >= card.test }" @click="addEffort(card, 'test')">
+                <div class="mobile-card-column test" :class="{ 'complete': card.effort.test >= card.test }" @click="addEffort(card, 'test')">
                   <div>Test</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'test') }" />
@@ -59,7 +61,7 @@
                 </div>
               </td>
               <td>
-                <div class="mobile-card-column deploy rounded" :class="{ 'complete': card.effort.deploy >= card.deploy }" @click="addEffort(card, 'deploy')">
+                <div class="mobile-card-column deploy" :class="{ 'complete': card.effort.deploy >= card.deploy }" @click="addEffort(card, 'deploy')">
                   <div>Deploy</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'deploy') }" />
@@ -120,7 +122,7 @@ export default {
     },
     addEffort(card, column) {
       if (card.effort[column] < card[column]) {
-        const str = 'Adding effort to #' + card.number + ' in ' + column
+        const str = 'Adding effort to card #' + card.number + ' in ' + column
         alert(str)
       }
     }
@@ -192,6 +194,7 @@ export default {
 
       .mobile-card-header {
         font-weight: bold;
+        font-size: x-large;
       }
 
       .left {
@@ -216,9 +219,11 @@ export default {
 
       .mobile-card-column {
         margin: 0 auto;
-        width: 100px;
+        width: 80px;
+        height: 80px;
+        border-radius: 40px;
         margin: 6px auto;
-        padding: 12px;
+        padding: 18px 12px;
         border: 1px solid;
         font-weight: bold;
         color: #fff;

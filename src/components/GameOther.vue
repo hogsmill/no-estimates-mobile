@@ -25,8 +25,16 @@ export default {
   ],
   computed: {
     otherCards() {
-      console.log(this.$store.getters.getOtherCards)
       return this.$store.getters.getOtherCards
+    }
+  },
+  methods: {
+    addEffort(card) {
+      console.log(card)
+      if (card.dependencyDone < card.teamDependency) {
+        const str = 'Adding effort to card #' + card.number + ' for team ' + card.team
+        alert(str)
+      }
     }
   }
 }
@@ -36,10 +44,14 @@ export default {
 .other-work-card {
   width: 80%;
   margin: 12px auto;
-  height: 100px;
   color: #fff;
   font-size: x-large;
   box-shadow: 2px 2px 5px #444;
+
+  .urgent {
+    background-color: red;
+    font-weight: bold;
+  }
 
   .other-work-card-column {
     background-color: #fff;

@@ -1,8 +1,9 @@
 <template>
   <div id="app" class="mobile rounded">
-    <div class="header">
+    <div class="header" :style="{ 'background-color': getHeaderColor() }">
       <i class="fas fa-user-friends" :class="{' selected': screen == 'thisTeam' }" @click="setScreen('thisTeam')" />
       <i class="fas fa-users" :class="{' selected': screen == 'otherTeams' }" @click="setScreen('otherTeams')" />
+      <i class="fas fa-industry" v-if="true || capabilities && capabilities.autoDeploy.doing" :class="{' selected': screen == 'autoDeploy' }" @click="setScreen('autoDeploy')" />
       <i class="fas fa-cog" @click="toggleSettings()" />
     </div>
     <div v-if="showSettings" class="setup rounded-bottom">
@@ -14,6 +15,7 @@
     <div v-if="!showSettings && myName.id" class="game">
       <Game v-if="screen == 'thisTeam'" :socket="socket" />
       <GameOther v-if="screen == 'otherTeams'" :socket="socket" />
+      <AutoDeploy v-if="screen == 'autoDeploy'" :socket="socket" />
     </div>
   </div>
 </template>
@@ -25,6 +27,7 @@ import Intro from './components/Intro.vue'
 import Setup from './components/Setup.vue'
 import Game from './components/Game.vue'
 import GameOther from './components/GameOther.vue'
+import AutoDeploy from './components/AutoDeploy.vue'
 
 export default {
   name: 'App',
@@ -32,7 +35,8 @@ export default {
     Intro,
     Setup,
     Game,
-    GameOther
+    GameOther,
+    AutoDeploy
   },
   data() {
     return {
@@ -49,6 +53,9 @@ export default {
     },
     myName() {
       return this.$store.getters.getMyName
+    },
+    capabilities() {
+      return this.$store.getters.getCapabilities
     }
   },
   created() {
@@ -91,6 +98,9 @@ export default {
     },
     setScreen(screen) {
       this.screen = screen
+    },
+    getHeaderColor() {
+      return this.teamName ? this.teamName.toLowerCase() : '#ccc'
     }
   }
 }
@@ -106,6 +116,7 @@ export default {
       padding: 6px;
       background-color: #ccc;
       text-align: left;
+      opacity: 0.75;
 
       .fas {
         font-size: x-large;
@@ -117,7 +128,7 @@ export default {
         }
 
         &.selected {
-          color: #444;
+          color: #fff;
         }
       }
     }

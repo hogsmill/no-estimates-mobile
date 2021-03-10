@@ -13,17 +13,53 @@
 </template>
 
 <script>
+import roles from '../lib/roles.js'
+
 export default {
   props: [
-    'socket'
+    'gameSocket'
   ],
   computed: {
     capabilities() {
       return this.$store.getters.getCapabilities
+    },
+    gameName() {
+      return this.$store.getters.getGameName
+    },
+    teamName() {
+      return this.$store.getters.getTeamName
+    },
+    myName() {
+      return this.$store.getters.getMyName
+    },
+    myEffort() {
+      return this.$store.getters.getMyEffort
+    },
+    myRole() {
+      return this.$store.getters.getMyRole
+    },
+    myOtherRoles() {
+      return this.$store.getters.getMyOtherRoles
+    },
+    currentDay() {
+      return this.$store.getters.getCurrentDay
     }
   },
-  addEffort() {
-    alert('Adding effort to autoDeploy')
+  methods: {
+    addEffort() {
+      const column = 'deploy'
+      const iHaveRole = roles.iHaveRole(column, this.myRole, this.myOtherRoles)
+      const effort = iHaveRole ? 1 : 2
+      if (this.myEffort.available >= effort) {
+        this.gameSocket.emit('incrementAutoDeploy', {gameName: this.gameName, teamName: this.teamName, name: this.myName, effort: effort})
+        this.gameSocket.emit('updatePersonAutoDeployEffort', {gameName: this.gameName, teamName: this.teamName, name: this.myName})
+        if (!iHaveRole) {
+          this.gameSocket.emit('pairingDay', {gameName: this.gameName, teamName: this.teamName, name: this.myName, column: column, day: this.currentDay})
+        }
+      } else {
+        alert('No effort available (Autodeploy)')
+      }
+    }
   }
 }
 </script>
@@ -35,6 +71,7 @@ export default {
   color: #fff;
   font-size: x-large;
   box-shadow: 2px 2px 5px #444;
+  background-color: #ddd;
 
   h3 {
     color: #444;
@@ -50,7 +87,7 @@ export default {
     box-shadow: 2px 2px 5px #444;
 
     &.assigned {
-      background-color: #000;
+      background-color: #444;
     }
   }
 }

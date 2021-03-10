@@ -16,7 +16,7 @@
       <Header />
       <Game v-if="screen == 'thisTeam'" :game-socket="gameSocket" />
       <GameOther v-if="screen == 'otherTeams'" :game-socket="gameSocket" />
-      <AutoDeploy v-if="screen == 'autoDeploy'" :socket="socket" />
+      <AutoDeploy v-if="screen == 'autoDeploy'" :game-socket="gameSocket" />
     </div>
   </div>
 </template>
@@ -94,14 +94,12 @@ export default {
     })
 
     this.socket.on('loadTeam', (data) => {
-      console.log('socket', data)
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
         this.$store.dispatch('loadTeam', data)
       }
     })
 
     this.gameSocket.on('loadTeam', (data) => {
-      console.log('gameSocket', data)
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
         this.$store.dispatch('loadTeam', data)
       }

@@ -48,9 +48,6 @@ if (!prod) {
 }
 
 const dbStore = require('./store/dbStore.js')
-const results = require('./store/results.js')
-const demo = require('./store/demo.js')        // Just set an end state
-const runGame = require('./store/runGame.js')  // Actually run the game
 
 const MongoClient = require('mongodb').MongoClient
 
@@ -100,41 +97,6 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
     socket.on('addMyName', (data) => { dbStore.addMyName(db, io, data, debugOn) })
 
     socket.on('setMyRole', (data) => { dbStore.setMyRole(db, io, data, debugOn) })
-
-/*
-  socket.on('makeCaptain', (data) => { doDb('makeCaptain', data) })
-
-  socket.on('retro', (data) => { emit('retro', data) })
-
-  socket.on('retroDone', (data) => { doDb('retroDone', data) })
-
-  socket.on('showEventCard', (data) => { emit('showEventCard', data) })
-
-  socket.on('updateCurrentDay', (data) => { doDb('updateCurrentDay', data) })
-
-  socket.on('hide', (data) => { emit('hide', data) })
-
-  socket.on('pullInCard', (data) => { doDb('pullInCard', data) })
-
-  socket.on('hint', (data) => { emit('hint', data) })
-
-  socket.on('updatePersonEffort', (data) => { emit('updatePersonEffort', data) })
-
-  socket.on('updatePersonAutoDeployEffort', (data) => { emit('updatePersonAutoDeployEffort', data) })
-
-  socket.on('updateEffort', (data) => { doDb('updateEffort', data) })
-
-  socket.on('pairingDay', (data) => { doDb('pairingDay', data) })
-
-  socket.on('resetEffort', (data) => { emit('resetEffort', data) })
-
-  socket.on('addEffortToOthersCard', (data) => { doDb('addEffortToOthersCard', data) })
-
-  socket.on('updateOtherTeamEffort', (data) => { emit('updateOtherTeamEffort', data) })
-
-
-  socket.on('incrementAutoDeploy', (data) => { doDb('incrementAutoDeploy', data) })
-*/
   })
 })
 

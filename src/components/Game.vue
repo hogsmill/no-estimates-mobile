@@ -1,18 +1,5 @@
 <template>
-  <div v-if="myName.id">
-    <div>
-      <h3>
-        {{ myName.name }}
-      </h3>
-      <span v-if="myEffort">
-        <span v-for="n in myEffort.assigned" :key="'n-' + n">
-          <div class="mobile-effort full rounded-circle" />
-        </span>
-        <span v-for="a in myEffort.available" :key="'a-' + a">
-          <div class="mobile-effort rounded-circle" />
-        </span>
-      </span>
-    </div>
+  <div>
     <div v-for="(column, index) in columns" :key="index">
       <div v-if="column.name != 'done'" class="mobile-column" :class="column.name">
         <h4 class="mobile-column-header" :class="column.name">
@@ -35,7 +22,13 @@
           <table>
             <tr>
               <td>
-                <div class="mobile-card-column design" :class="{ 'complete': card.effort.design >= card.design }" @click="addEffort(card, 'design')">
+                <div v-if="canAssign(column.name, 'design')" class="mobile-card-column design" :class="{ 'complete': card.effort.design >= card.design }" @click="addEffort(card, 'design')">
+                  <div>Design</div>
+                  <div class="effort-div">
+                    <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'design') }" />
+                  </div>
+                </div>
+                <div v-if="!canAssign(column.name, 'design')" class="mobile-card-column disabled">
                   <div>Design</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'design') }" />
@@ -43,7 +36,13 @@
                 </div>
               </td>
               <td>
-                <div class="mobile-card-column develop" :class="{ 'complete': card.effort.develop >= card.develop }" @click="addEffort(card, 'develop')">
+                <div v-if="canAssign(column.name, 'develop')" class="mobile-card-column develop" :class="{ 'complete': card.effort.develop >= card.develop }" @click="addEffort(card, 'develop')">
+                  <div>Develop</div>
+                  <div class="effort-div">
+                    <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'develop') }" />
+                  </div>
+                </div>
+                <div v-if="!canAssign(column.name, 'develop')" class="mobile-card-column disabled">
                   <div>Develop</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'develop') }" />
@@ -53,7 +52,13 @@
             </tr>
             <tr>
               <td>
-                <div class="mobile-card-column test" :class="{ 'complete': card.effort.test >= card.test }" @click="addEffort(card, 'test')">
+                <div v-if="canAssign(column.name, 'test')" class="mobile-card-column test" :class="{ 'complete': card.effort.test >= card.test }" @click="addEffort(card, 'test')">
+                  <div>Test</div>
+                  <div class="effort-div">
+                    <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'test') }" />
+                  </div>
+                </div>
+                <div v-if="!canAssign(column.name, 'test')" class="mobile-card-column disabled">
                   <div>Test</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'test') }" />
@@ -61,7 +66,13 @@
                 </div>
               </td>
               <td>
-                <div class="mobile-card-column deploy" :class="{ 'complete': card.effort.deploy >= card.deploy }" @click="addEffort(card, 'deploy')">
+                <div v-if="canAssign(column.name, 'deploy')" class="mobile-card-column deploy" :class="{ 'complete': card.effort.deploy >= card.deploy }" @click="addEffort(card, 'deploy')">
+                  <div>Deploy</div>
+                  <div class="effort-div">
+                    <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'deploy') }" />
+                  </div>
+                </div>
+                <div v-if="!canAssign(column.name, 'deploy')" class="mobile-card-column disabled">
                   <div>Deploy</div>
                   <div class="effort-div">
                     <div class="effort-done" :style="{ 'width': getEffortDoneWidth(card, 'deploy') }" />
@@ -82,9 +93,15 @@ import stringFuns from '../lib/stringFuns.js'
 
 export default {
   props: [
-    'socket'
+    'gameSocket'
   ],
   computed: {
+    gameName() {
+      return this.$store.getters.getGameName
+    },
+    teamName() {
+      return this.$store.getters.getTeamName
+    },
     myName() {
       return this.$store.getters.getMyName
     },
@@ -99,6 +116,9 @@ export default {
     },
     columns() {
       return this.$store.getters.getColumns
+    },
+    capabilities() {
+      return this.$store.getters.getCapabilities
     }
   },
   methods: {
@@ -120,10 +140,58 @@ export default {
     getEffortDoneWidth(card, column) {
       return card.effort[column] / card[column] * 100 + '%'
     },
+    canAssign(column, thisColumn) {
+      let canAssign = false
+      if (column == thisColumn) {
+        canAssign = true
+      } else if (this.capabilities.concurrentDevAndTest) {
+        if (column == 'develop' || column == 'test') {
+          if (thisColumn == 'develop' || thisColumn == 'test') {
+            canAssign = true
+          }
+        }
+      }
+      return canAssign
+    },
     addEffort(card, column) {
-      if (card.effort[column] < card[column]) {
+      let message = '', effort = 0
+      if (card.blocked) {
+        message = 'card is blocked'
+      } else if (this.myEffort.available <= 0) {
+        message = 'all effort assigned'
+      } else {
+        if (roles.iHaveRole(column, this.myRole, this.myOtherRoles)) {
+          card.effort[column] = card.effort[column] + 1
+          effort = 1
+        } else {
+          if (this.myEffort.available < 2) {
+            message = 'you only have one effort point left'
+          } else {
+            card.effort[column] = card.effort[column] + 1
+            effort = 2
+            if (column == this.column) {
+              this.gameSocket.emit('pairingDay', {gameName: this.gameName, teamName: this.teamName, name: this.myName, column: column, day: this.currentDay})
+            }
+          }
+        }
+      }
+      if (message != '') {
+        alert(message)
+      } else {
         const str = 'Adding effort to card #' + card.number + ' in ' + column
         alert(str)
+        this.gameSocket.emit('updatePersonEffort', {gameName: this.gameName, teamName: this.teamName, workCard: card, name: this.myName, column: column})
+        this.gameSocket.emit('updateEffort', {
+          gameName: this.gameName,
+          teamName: this.teamName,
+          name: this.myName,
+          role: this.myRole,
+          workCard: card,
+          column: column,
+          effort: effort,
+          percentageBlocked: this.percentageBlocked,
+          percentageDeployFail: this.percentageDeployFail
+        })
       }
     }
   }
@@ -243,7 +311,7 @@ export default {
           width: 90%;
           height: 10px;
           margin: 0 auto;
-          background-color: #ddd;
+          background-color: #fff;
 
           .effort-done {
             height: 10px;

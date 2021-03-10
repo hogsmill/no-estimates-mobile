@@ -21,19 +21,38 @@
 <script>
 export default {
   props: [
-    'socket'
+    'gameSocket'
   ],
   computed: {
+    gameName() {
+      return this.$store.getters.getGameName
+    },
+    teamName() {
+      return this.$store.getters.getTeamName
+    },
+    myName() {
+      return this.$store.getters.getMyName
+    },
+    myEffort() {
+      return this.$store.getters.getMyEffort
+    },
     otherCards() {
       return this.$store.getters.getOtherCards
     }
   },
   methods: {
     addEffort(card) {
-      console.log(card)
-      if (card.dependencyDone < card.teamDependency) {
-        const str = 'Adding effort to card #' + card.number + ' for team ' + card.team
-        alert(str)
+      let message = ''
+      if (this.myEffort.available == 0) {
+        message = 'Can\'t assign - all effort assigned'
+      } else if (card.dependencyDone == card.teamDependency) {
+        message = 'Can\'t assign - card complete'
+      }
+      if (message) {
+        alert(message)
+      } else {
+        this.gameSocket.emit('addEffortToOthersCard', {gameName: this.gameName, teamName: this.teamName, card: card, myName: this.myName, effort: 1})
+        this.gameSocket.emit('updateOtherTeamEffort', {gameName: this.gameName, teamName: this.teamName, card: card, name: this.myName, effort: this.myEffort})
       }
     }
   }
@@ -62,7 +81,7 @@ export default {
     box-shadow: 2px 2px 5px #444;
 
     &.assigned {
-      background-color: #000;
+      background-color: #888;
     }
   }
 }

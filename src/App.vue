@@ -13,8 +13,9 @@
       <Intro />
     </div>
     <div v-if="!showSettings && myName.id" class="game">
-      <Game v-if="screen == 'thisTeam'" :socket="socket" />
-      <GameOther v-if="screen == 'otherTeams'" :socket="socket" />
+      <Header />
+      <Game v-if="screen == 'thisTeam'" :game-socket="gameSocket" />
+      <GameOther v-if="screen == 'otherTeams'" :game-socket="gameSocket" />
       <AutoDeploy v-if="screen == 'autoDeploy'" :socket="socket" />
     </div>
   </div>
@@ -25,6 +26,7 @@ import io from 'socket.io-client'
 
 import Intro from './components/Intro.vue'
 import Setup from './components/Setup.vue'
+import Header from './components/Header.vue'
 import Game from './components/Game.vue'
 import GameOther from './components/GameOther.vue'
 import AutoDeploy from './components/AutoDeploy.vue'
@@ -34,6 +36,7 @@ export default {
   components: {
     Intro,
     Setup,
+    Header,
     Game,
     GameOther,
     AutoDeploy

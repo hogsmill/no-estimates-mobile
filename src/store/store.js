@@ -281,44 +281,8 @@ export const store = new Vuex.Store({
     getGameRunning: (state) => {
       return state.config.gameRunning
     },
-    getPercentageBlocked: (state) => {
-      return state.config.percentageBlocked
-    },
-    getPercentageDeployFail: (state) => {
-      return state.config.percentageDeployFail
-    },
     getMvpCards: (state) => {
       return state.config.mvpCards
-    },
-    getDoRetros: (state) => {
-      return state.config.doRetros
-    },
-    getRetroDays: (state) => {
-      return state.config.retroDays
-    },
-    getRetroTimer: (state) => {
-      return state.config.retroTimer
-    },
-    getRetroTime: (state) => {
-      return state.config.retroTime
-    },
-    getRetrosDone: (state) => {
-      return state.retrosDone
-    },
-    getGraphConfig: (state) => {
-      return state.graphConfig
-    },
-    getDemoConfig: (state) => {
-      return state.demoConfig
-    },
-    getSelectedGraphTeam1: (state) => {
-      return state.selectedGraphTeam1
-    },
-    getSelectedGraphTeam2: (state) => {
-      return state.selectedGraphTeam2
-    },
-    getSelectedGraphTeam3: (state) => {
-      return state.selectedGraphTeam3
     },
     getCurrentDay: (state) => {
       return state.currentDay
@@ -378,29 +342,8 @@ export const store = new Vuex.Store({
       }
       return n
     },
-    getProjectEstimate: (state) => {
-      return state.projectEstimate
-    },
-    getProjectActual: (state) => {
-      return state.projectActual
-    },
-    getMvpEstimate: (state) => {
-      return state.mvpEstimate
-    },
-    getMvpActual: (state) => {
-      return state.mvpActual
-    },
-    getReEstimate: (state) => {
-      return state.reEstimate
-    },
-    getGameState: (state) => {
-      return state.gameState
-    },
     getGames: (state) => {
       return state.games
-    },
-    getSourcesOfVariation: (state) => {
-      return state.sourcesOfVariation
     },
     getAvailableGames: (state) => {
       const games = []
@@ -410,9 +353,6 @@ export const store = new Vuex.Store({
         }
       }
       return games
-    },
-    getConnections: (state) => {
-      return state.connections
     }
   },
   mutations: {
@@ -544,14 +484,8 @@ export const store = new Vuex.Store({
     updateMyName: ({ commit }, payload) => {
       commit('updateMyName', payload)
     },
-    updateMessage: ({ commit }, payload) => {
-      commit('updateMessage', payload)
-    },
     updateTeamName: ({ commit }, payload) => {
       commit('updateTeamName', payload)
-    },
-    setSelectedGraphTeam: ({ commit }, payload) => {
-      commit('setSelectedGraphTeam', payload)
     },
     updateGameState: ({ commit }, payload) => {
       commit('updateGameState', payload)
@@ -561,12 +495,6 @@ export const store = new Vuex.Store({
     },
     updateGameDetails: ({ commit }, payload) => {
       commit('updateGameDetails', payload)
-    },
-    updateSourcesOfVariation: ({ commit }, payload) => {
-      commit('updateSourcesOfVariation', payload)
-    },
-    updateConnections: ({ commit }, payload) => {
-      commit('updateConnections', payload)
     }
   }
 })

@@ -7,12 +7,14 @@ fi
 PORT=3018
 PWD=`pwd`
 APP=`basename $PWD`
+npm stash
 GIT=`git pull`
 echo $GIT
 if [ "$FORCE" != "true" -a "$GIT" == "Already up to date." ]; then
   exit 0
 fi
 
+npm install
 npm run build
 rm /var/www/html/$APP/css/*
 rm /var/www/html/$APP/js/*

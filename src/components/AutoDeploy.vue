@@ -51,7 +51,7 @@ export default {
       const effort = iHaveRole ? 1 : 2
       if (this.myEffort.available >= effort) {
         bus.$emit('sendIncrementAutoDeploy', {gameName: this.gameName, teamName: this.teamName, name: this.myName, effort: effort})
-        bus.$emit('sendUpdatePersonAutoDeployEffort', {gameName: this.gameName, teamName: this.teamName, name: this.myName})
+        bus.$emit('emitUpdatePersonAutoDeployEffort', {gameName: this.gameName, teamName: this.teamName, name: this.myName})
       } else {
         alert('No effort available (Autodeploy)')
       }

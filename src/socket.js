@@ -28,9 +28,9 @@ bus.$on('sendSetMyRole', (data) => { socket.emit('sendSetMyRole', data) })
 
 bus.$on('sendIncrementAutoDeploy', (data) => { gameSocket.emit('sendIncrementAutoDeploy', data) })
 
-bus.$on('sendUpdatePersonAutoDeployEffort', (data) => { gameSocket.emit('sendUpdatePersonAutoDeployEffort', data) })
+bus.$on('emitUpdatePersonAutoDeployEffort', (data) => { gameSocket.emit('emitUpdatePersonAutoDeployEffort', data) })
 
-bus.$on('sendUpdatePersonEffort', (data) => { gameSocket.emit('sendUpdatePersonEffort', data) })
+bus.$on('emitUpdatePersonEffort', (data) => { gameSocket.emit('emitUpdatePersonEffort', data) })
 
 bus.$on('sendUpdateEffort', (data) => { gameSocket.emit('sendUpdateEffort', data) })
 

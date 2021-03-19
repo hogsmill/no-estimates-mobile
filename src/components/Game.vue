@@ -88,13 +88,12 @@
 </template>
 
 <script>
+import bus from '../socket.js'
+
 import roles from '../lib/roles.js'
 import stringFuns from '../lib/stringFuns.js'
 
 export default {
-  props: [
-    'gameSocket'
-  ],
   computed: {
     gameName() {
       return this.$store.getters.getGameName
@@ -169,9 +168,6 @@ export default {
           } else {
             card.effort[column] = card.effort[column] + 1
             effort = 2
-            if (column == this.column) {
-              this.gameSocket.emit('pairingDay', {gameName: this.gameName, teamName: this.teamName, name: this.myName, column: column, day: this.currentDay})
-            }
           }
         }
       }
@@ -180,8 +176,8 @@ export default {
       } else {
         const str = 'Adding effort to card #' + card.number + ' in ' + column
         alert(str)
-        this.gameSocket.emit('updatePersonEffort', {gameName: this.gameName, teamName: this.teamName, workCard: card, name: this.myName, column: column})
-        this.gameSocket.emit('updateEffort', {
+        bus.$emit('sendUpdatePersonEffort', {gameName: this.gameName, teamName: this.teamName, workCard: card, name: this.myName, column: column})
+        bus.$emit('sendUpdateEffort', {
           gameName: this.gameName,
           teamName: this.teamName,
           name: this.myName,

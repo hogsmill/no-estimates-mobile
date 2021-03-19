@@ -13,12 +13,11 @@
 </template>
 
 <script>
+import bus from '../socket.js'
+
 import roles from '../lib/roles.js'
 
 export default {
-  props: [
-    'gameSocket'
-  ],
   computed: {
     capabilities() {
       return this.$store.getters.getCapabilities
@@ -51,11 +50,8 @@ export default {
       const iHaveRole = roles.iHaveRole(column, this.myRole, this.myOtherRoles)
       const effort = iHaveRole ? 1 : 2
       if (this.myEffort.available >= effort) {
-        this.gameSocket.emit('incrementAutoDeploy', {gameName: this.gameName, teamName: this.teamName, name: this.myName, effort: effort})
-        this.gameSocket.emit('updatePersonAutoDeployEffort', {gameName: this.gameName, teamName: this.teamName, name: this.myName})
-        if (!iHaveRole) {
-          this.gameSocket.emit('pairingDay', {gameName: this.gameName, teamName: this.teamName, name: this.myName, column: column, day: this.currentDay})
-        }
+        bus.$emit('sendIncrementAutoDeploy', {gameName: this.gameName, teamName: this.teamName, name: this.myName, effort: effort})
+        bus.$emit('sendUpdatePersonAutoDeployEffort', {gameName: this.gameName, teamName: this.teamName, name: this.myName})
       } else {
         alert('No effort available (Autodeploy)')
       }

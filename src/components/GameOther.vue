@@ -19,10 +19,9 @@
 </template>
 
 <script>
+import bus from '../socket.js'
+
 export default {
-  props: [
-    'gameSocket'
-  ],
   computed: {
     gameName() {
       return this.$store.getters.getGameName
@@ -51,8 +50,8 @@ export default {
       if (message) {
         alert(message)
       } else {
-        this.gameSocket.emit('addEffortToOthersCard', {gameName: this.gameName, teamName: this.teamName, card: card, myName: this.myName, effort: 1})
-        this.gameSocket.emit('updateOtherTeamEffort', {gameName: this.gameName, teamName: this.teamName, card: card, name: this.myName, effort: this.myEffort})
+        bus.$emit('sendAddEffortToOthersCard', {gameName: this.gameName, teamName: this.teamName, card: card, myName: this.myName, effort: 1})
+        bus.$emit('sendUpdateOtherTeamEffort', {gameName: this.gameName, teamName: this.teamName, card: card, name: this.myName, effort: this.myEffort})
       }
     }
   }

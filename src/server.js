@@ -88,15 +88,15 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
       emit('updateConnections', {connections: connections, maxConnections: maxConnections})
     })
 
-    socket.on('getGames', (data) => { dbStore.getGames(db, io, data, debugOn) })
+    socket.on('sendGetGames', (data) => { dbStore.getGames(db, io, data, debugOn) })
 
-    socket.on('loadGame', (data) => { dbStore.loadGame(db, io, data, debugOn) })
+    socket.on('sendLoadGame', (data) => { dbStore.loadGame(db, io, data, debugOn) })
 
-    socket.on('loadTeam', (data) => { dbStore.loadTeam(db, io, data, debugOn) })
+    socket.on('sendLoadTeam', (data) => { dbStore.loadTeam(db, io, data, debugOn) })
 
-    socket.on('addMyName', (data) => { dbStore.addMyName(db, io, data, debugOn) })
+    socket.on('sendAddMyName', (data) => { dbStore.addMyName(db, io, data, debugOn) })
 
-    socket.on('setMyRole', (data) => { dbStore.setMyRole(db, io, data, debugOn) })
+    socket.on('sendSetMyRole', (data) => { dbStore.setMyRole(db, io, data, debugOn) })
   })
 })
 

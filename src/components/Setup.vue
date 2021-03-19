@@ -74,12 +74,11 @@
 </template>
 
 <script>
+import bus from '../socket.js'
+
 import { v4 as uuidv4 } from 'uuid'
 
 export default {
-  props: [
-    'socket'
-  ],
   data() {
     return {
       showSettings: false
@@ -112,11 +111,11 @@ export default {
     }
   },
   created() {
-    this.socket.on('updateGames', (data) => {
+    bus.$on('updateGames', (data) => {
       this.$store.dispatch('updateGames', data)
     })
 
-    this.socket.emit('getGames')
+    bus.$emit('sendGetGames')
   },
   methods: {
     setGameName() {
@@ -124,7 +123,7 @@ export default {
       if (gameName) {
         localStorage.setItem('gameName', gameName)
         this.$store.dispatch('updateGameName', gameName)
-        this.socket.emit('loadGame', {gameName: gameName})
+        bus.$emit('sendLoadGame', {gameName: gameName})
       } else {
         localStorage.removeItem('gameName', '')
         this.$store.dispatch('updateGameName', '')
@@ -139,7 +138,7 @@ export default {
       if (teamName) {
         localStorage.setItem('teamName', teamName)
         this.$store.dispatch('updateTeamName', teamName)
-        this.socket.emit('loadTeam', {gameName: this.gameName, teamName: teamName})
+        bus.$emit('sendLoadTeam', {gameName: this.gameName, teamName: teamName})
       } else {
         localStorage.removeItem('teamName', teamName)
         this.$store.dispatch('updateTeamName', teamName)
@@ -168,12 +167,12 @@ export default {
       }
       localStorage.setItem('myName', JSON.stringify(myName))
       this.$store.dispatch('updateMyName', myName)
-      this.socket.emit('addMyName', {gameName: this.gameName, teamName: this.teamName, myName: myName})
+      bus.e$mit('sendAddMyName', {gameName: this.gameName, teamName: this.teamName, myName: myName})
     },
     selectMyRole() {
       const myRole = document.getElementById('role-name').value
       if (myRole) {
-        this.socket.emit('setMyRole', {gameName: this.gameName, teamName: this.teamName, myName: this.myName, myRole: myRole})
+        bus.$emit('sendSetMyRole', {gameName: this.gameName, teamName: this.teamName, myName: this.myName, myRole: myRole})
       }
     }
   }

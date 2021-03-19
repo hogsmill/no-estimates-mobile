@@ -7,22 +7,22 @@
       <i class="fas fa-cog" @click="toggleSettings()" />
     </div>
     <div v-if="showSettings" class="setup rounded-bottom">
-      <Setup :socket="socket" />
+      <Setup />
     </div>
     <div v-if="!showSettings && !myName.id" class="game">
       <Intro />
     </div>
     <div v-if="!showSettings && myName.id" class="game">
       <Header />
-      <Game v-if="screen == 'thisTeam'" :game-socket="gameSocket" />
-      <GameOther v-if="screen == 'otherTeams'" :game-socket="gameSocket" />
-      <AutoDeploy v-if="screen == 'autoDeploy'" :game-socket="gameSocket" />
+      <Game v-if="screen == 'thisTeam'" />
+      <GameOther v-if="screen == 'otherTeams'" />
+      <AutoDeploy v-if="screen == 'autoDeploy'" />
     </div>
   </div>
 </template>
 
 <script>
-import io from 'socket.io-client'
+import bus from './socket.js'
 
 import Intro from './components/Intro.vue'
 import Setup from './components/Setup.vue'
@@ -62,26 +62,13 @@ export default {
     }
   },
   created() {
-    let connStr, gameConnstr
-    if (location.hostname == 'localhost') {
-      connStr = 'http://localhost:3018'
-      gameConnstr = 'http://localhost:3007'
-    } else {
-      connStr = 'https://agilesimulations.co.uk:3018'
-      gameConnstr = 'https://agilesimulations.co.uk:3007'
-    }
-    console.log('Connecting to: ' + connStr + ' (app)')
-    this.socket = io(connStr)
-    console.log('Connecting app to: ' + gameConnstr + ' (game)')
-    this.gameSocket = io(gameConnstr)
-
     const gameName = localStorage.getItem('gameName')
     const teamName = localStorage.getItem('teamName')
     if (gameName && teamName) {
       this.$store.dispatch('updateGameName', gameName)
-      this.socket.emit('loadGame', {gameName: gameName})
+      bus.$emit('sendLoadGame', {gameName: gameName})
       this.$store.dispatch('updateTeamName', teamName)
-      this.socket.emit('loadTeam', {gameName: gameName, teamName, teamName})
+      bus.$emit('sendLoadTeam', {gameName: gameName, teamName, teamName})
     }
 
     const myName = localStorage.getItem('myName')
@@ -89,17 +76,17 @@ export default {
       this.$store.dispatch('updateMyName', JSON.parse(myName))
     }
 
-    this.socket.on('loadGame', (data) => {
+    bus.$on('loadGameMobile', (data) => {
       this.$store.dispatch('loadGame', data)
     })
 
-    this.socket.on('loadTeam', (data) => {
+    bus.$on('loadTeamMobile', (data) => {
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
         this.$store.dispatch('loadTeam', data)
       }
     })
 
-    this.gameSocket.on('loadTeam', (data) => {
+    bus.$on('loadTeam', (data) => {
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
         this.$store.dispatch('loadTeam', data)
       }

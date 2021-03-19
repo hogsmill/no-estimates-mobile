@@ -36,7 +36,7 @@ bus.$on('sendUpdateEffort', (data) => { gameSocket.emit('sendUpdateEffort', data
 
 bus.$on('sendAddEffortToOthersCard', (data) => { gameSocket.emit('sendAddEffortToOthersCard', data) })
 
-bus.$on('sendUpdateOtherTeamEffort', (data) => { gameSocket.emit('sendUpdateOtherTeamEffort', data) })
+bus.$on('emitUpdateOtherTeamEffort', (data) => { gameSocket.emit('emitUpdateOtherTeamEffort', data) })
 
 // -- Receive --
 

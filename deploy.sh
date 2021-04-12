@@ -32,19 +32,18 @@ do
   DIR="/usr/apps/$APP"
   if [ ! -d $DIR ]; then
     git clone $REPO $DIR
-    ENVFILE="$DIR/.env"
-    if [ ! -f $ENVFILE ]; then
-      echo "VUE_APP_PORT=$PORT" > $ENVFILE
-      echo "VUE_APP_COLLECTION=$COLLECTION" >> $ENVFILE
-      echo "VUE_APP_GAME_COLLECTION=$GAMECOLLECTION" >> $ENVFILE
-      if [ ! -z $APPNAME ]; then
-        echo "VUE_APP_NAME=$APPNAME" >> $ENVFILE
-      fi
-      if [ ! -z $PASSWORD ]; then
-        echo "VUE_APP_PASSWORD=$PASSWORD" >> $ENVFILE
-      fi
-    fi
   fi
+  ENVFILE="$DIR/.env"
+  echo "VUE_APP_PORT=$PORT" > $ENVFILE
+  echo "VUE_APP_COLLECTION=$COLLECTION" >> $ENVFILE
+  echo "VUE_APP_GAME_COLLECTION=$GAMECOLLECTION" >> $ENVFILE
+  if [ ! -z "$APPNAME" ]; then
+    echo "VUE_APP_NAME=$APPNAME" >> $ENVFILE
+  fi
+  if [ ! -z $PASSWORD ]; then
+    echo "VUE_APP_PASSWORD=$PASSWORD" >> $ENVFILE
+  fi
+
   cd $DIR
 
   PWD=`pwd`

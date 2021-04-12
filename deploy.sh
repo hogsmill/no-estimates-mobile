@@ -5,20 +5,41 @@ if [ "$1" == "-f" ]; then
 fi
 
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
-APPS=('no-estimates-mobile' 'no-estimates-mobile-new')
-for APP in ${APPS[@]};
+APPS=(
+  'no-estimates-mobile,noEstimatesGames,noEstimates,3007'
+  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,123456'
+)
+
+for REC in ${APPS[@]};
 do
+  APP=`echo $APP | cut -d, -f0`
+  COLLECTION=`echo $APP | cut -d, -f1`
+  GAMECOLLECTION=`echo $APP | cut -d, -f2`
+  PORT=`echo $APP | cut -d, -f3`
+  PASSWORD=`echo $APP | cut -d, -f4`
+
   echo "------------------------------------------------"
-  echo "Installing $APP"
+  echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $PASSWORD)"
   echo "------------------------------------------------"
 
   DIR="/usr/apps/$APP"
   if [ ! -d $DIR ];then
     git clone $REPO $DIR
+    $ENVFILE="$DIR/.env"
+    if [ ! -f $ENVFILE ];then
+      echo "VUE_APP_PORT=$PORT" > $ENVFILE
+      echo "VUE_APP_COLLECTION=$COLLECTION" >> $ENVFILE
+      echo "VUE_APP_GAME_COLLECTION=$GAMECOLLECTION" >> $ENVFILE
+      if [ ! -z $APPNAME ]; then
+        echo "VUE_APP_NAME=$APPNAME" >> $ENVFILE
+      fi
+      if [ ! -z $PASSWORD ]; then
+        echo "VUE_APP_PASSWORD=$PASSWORD" >> $ENVFILE
+      fi
+    fi
   fi
   cd $DIR
 
-  PORT=3007
   PWD=`pwd`
   APP=`basename $PWD`
   git stash

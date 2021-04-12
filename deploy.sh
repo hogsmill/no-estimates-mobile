@@ -4,6 +4,7 @@ if [ "$1" == "-f" ]; then
   FORCE=true
 fi
 
+REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=('no-estimates-mobile' 'no-estimates-mobile-new')
 for APP in ${APPS[@]};
 do
@@ -11,7 +12,11 @@ do
   echo "Installing $APP"
   echo "------------------------------------------------"
 
-  cd "/usr/apps/$APP"
+  DIR="/usr/apps/$APP"
+  if [ ! -d $DIR ];then
+    git clone $REPO $DIR
+  fi
+  cd $DIR
 
   PORT=3007
   PWD=`pwd`

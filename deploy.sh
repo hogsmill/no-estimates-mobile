@@ -26,7 +26,7 @@ do
   DIR="/usr/apps/$APP"
   if [ ! -d $DIR ];then
     git clone $REPO $DIR
-    $ENVFILE="$DIR/.env"
+    ENVFILE="$DIR/.env"
     if [ ! -f $ENVFILE ];then
       echo "VUE_APP_PORT=$PORT" > $ENVFILE
       echo "VUE_APP_COLLECTION=$COLLECTION" >> $ENVFILE

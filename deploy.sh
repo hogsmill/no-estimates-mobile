@@ -10,8 +10,10 @@ APPS=(
   'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,No Estimates Private,123456'
 )
 
-for REC in ${APPS[@]};
+for ((i = 0; i < ${#APPS[@]}; i++))
 do
+  REC="${APPS[$i]}"
+
   APP=`echo $REC | cut -d, -f1`
   COLLECTION=`echo $REC | cut -d, -f2`
   GAMECOLLECTION=`echo $REC | cut -d, -f3`
@@ -20,14 +22,18 @@ do
   PASSWORD=`echo $REC | cut -d, -f6`
 
   echo "------------------------------------------------"
-  echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $PASSWORD)"
+  if [ -z "$APPNAME" ]; then
+    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT)"
+  else
+    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $APPNAME, $PASSWORD)"
+  fi
   echo "------------------------------------------------"
 
   DIR="/usr/apps/$APP"
-  if [ ! -d $DIR ];then
+  if [ ! -d $DIR ]; then
     git clone $REPO $DIR
     ENVFILE="$DIR/.env"
-    if [ ! -f $ENVFILE ];then
+    if [ ! -f $ENVFILE ]; then
       echo "VUE_APP_PORT=$PORT" > $ENVFILE
       echo "VUE_APP_COLLECTION=$COLLECTION" >> $ENVFILE
       echo "VUE_APP_GAME_COLLECTION=$GAMECOLLECTION" >> $ENVFILE

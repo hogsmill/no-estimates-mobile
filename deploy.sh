@@ -12,11 +12,11 @@ APPS=(
 
 for REC in ${APPS[@]};
 do
-  APP=`echo $APP | cut -d, -f0`
-  COLLECTION=`echo $APP | cut -d, -f1`
-  GAMECOLLECTION=`echo $APP | cut -d, -f2`
-  PORT=`echo $APP | cut -d, -f3`
-  PASSWORD=`echo $APP | cut -d, -f4`
+  APP=`echo $APP | cut -d, -f1`
+  COLLECTION=`echo $APP | cut -d, -f2`
+  GAMECOLLECTION=`echo $APP | cut -d, -f3`
+  PORT=`echo $APP | cut -d, -f4`
+  PASSWORD=`echo $APP | cut -d, -f5`
 
   echo "------------------------------------------------"
   echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $PASSWORD)"

@@ -7,16 +7,17 @@ fi
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=(
   'no-estimates-mobile,noEstimatesGames,noEstimates,3007'
-  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,123456'
+  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,No Estimates Private,123456'
 )
 
 for REC in ${APPS[@]};
 do
-  APP=`echo $APP | cut -d, -f1`
-  COLLECTION=`echo $APP | cut -d, -f2`
-  GAMECOLLECTION=`echo $APP | cut -d, -f3`
-  PORT=`echo $APP | cut -d, -f4`
-  PASSWORD=`echo $APP | cut -d, -f5`
+  APP=`echo $REC | cut -d, -f1`
+  COLLECTION=`echo $REC | cut -d, -f2`
+  GAMECOLLECTION=`echo $REC | cut -d, -f3`
+  PORT=`echo $REC | cut -d, -f4`
+  APPNAME=`echo $REC | cut -d, -f5`
+  PASSWORD=`echo $REC | cut -d, -f6`
 
   echo "------------------------------------------------"
   echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $PASSWORD)"

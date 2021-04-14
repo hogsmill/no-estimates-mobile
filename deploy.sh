@@ -6,8 +6,8 @@ fi
 
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=(
-  'no-estimates-mobile,noEstimatesGames,noEstimates,3007'
-  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,No Estimates Private,123456'
+  'no-estimates-mobile,noEstimatesGames,noEstimates,3007,3018'
+  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,3021,No Estimates Private,123456'
 )
 
 for ((i = 0; i < ${#APPS[@]}; i++))
@@ -18,14 +18,15 @@ do
   COLLECTION=`echo $REC | cut -d, -f2`
   GAMECOLLECTION=`echo $REC | cut -d, -f3`
   PORT=`echo $REC | cut -d, -f4`
-  APPNAME=`echo $REC | cut -d, -f5`
-  PASSWORD=`echo $REC | cut -d, -f6`
+  GAMEPORT=`echo $REC | cut -d, -f5`
+  APPNAME=`echo $REC | cut -d, -f6`
+  PASSWORD=`echo $REC | cut -d, -f7`
 
   echo "------------------------------------------------"
   if [ -z "$APPNAME" ]; then
-    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT)"
+    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMEPORT)"
   else
-    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $APPNAME, $PASSWORD)"
+    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMRPORT, $APPNAME, $PASSWORD)"
   fi
   echo "------------------------------------------------"
 
@@ -35,6 +36,7 @@ do
   fi
   ENVFILE="$DIR/.env"
   echo "VUE_APP_PORT=$PORT" > $ENVFILE
+  echo "VUE_APP_GAME_PORT=$GAMEPORT" >> $ENVFILE
   echo "VUE_APP_COLLECTION=$COLLECTION" >> $ENVFILE
   echo "VUE_APP_GAME_COLLECTION=$GAMECOLLECTION" >> $ENVFILE
   if [ ! -z "$APPNAME" ]; then

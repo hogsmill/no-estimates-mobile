@@ -6,8 +6,8 @@ if (location.hostname == 'localhost') {
   connStr = 'http://localhost:3018'
   gameConnstr = 'http://localhost:3007'
 } else {
-  connStr = 'https://agilesimulations.co.uk:3018'
-  gameConnstr = 'https://agilesimulations.co.uk:3007'
+  connStr = 'https://agilesimulations.co.uk:' + process.env.VUE_APP_PORT
+  gameConnstr = 'https://agilesimulations.co.uk:' + process.env.VUE_APP_GAME_PORT
 }
 console.log('Connecting to: ' + connStr + ' (app)')
 const socket = io(connStr)

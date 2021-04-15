@@ -7,7 +7,8 @@ fi
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=(
   'no-estimates-mobile,noEstimatesGames,noEstimates,3007,3018'
-  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,3021,No Estimates Private,123456'
+  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3021,3020,No Estimates Private,123456'
+  'no-estimates-mobile-bandwidth,noEstimatesBandwidthGames,noEstimatesBandwidth,3023,3022,No Estimates Private,123456'
 )
 
 for ((i = 0; i < ${#APPS[@]}; i++))
@@ -26,7 +27,7 @@ do
   if [ -z "$APPNAME" ]; then
     echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMEPORT)"
   else
-    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMRPORT, $APPNAME, $PASSWORD)"
+    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMEPORT, $APPNAME, $PASSWORD)"
   fi
   echo "------------------------------------------------"
 

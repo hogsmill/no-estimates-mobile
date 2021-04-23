@@ -1,8 +1,18 @@
 #!/bin/bash
 
-if [ "$1" == "-f" ]; then
-  FORCE=true
-fi
+FORCE=false
+OUTDATED=true
+while [ $1 ]
+do
+  echo $1
+  if [ "$1" == "-f" ]; then
+    FORCE=true
+  fi
+  if [ "$1" == "-o" ]; then
+    OUTDATED=false
+  fi
+  shift
+done
 
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=(
@@ -83,4 +93,6 @@ do
 
 done
 
-php /usr/apps/monitor/src/lib/outdated.php &
+if [ "$OUTDATED" == "true" ]; then
+  php /usr/apps/monitor/src/lib/outdated.php &
+fi

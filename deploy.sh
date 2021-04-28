@@ -71,7 +71,7 @@ do
     exit 0
   fi
 
-  npm install
+  npm install --legacy-peer-deps
   npm run build
   if [ ! -d /var/www/html/$APP/ ]; then
     mkdir /var/www/html/$APP

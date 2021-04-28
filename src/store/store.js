@@ -159,6 +159,21 @@ export const store = new Vuex.Store({
     games: []
   },
   getters: {
+    appType: (state) => {
+      return state.appType
+    },
+    lsSuffix: (state) => {
+      let suffix
+      switch(state.appType) {
+        case 'No Estimates':
+          suffix = 'ne'
+          break
+        case 'Kanban Playground':
+          suffix = 'kp'
+          break
+      }
+      return suffix
+    },
     thisGame: (state) => {
       return state.thisGame
     },
@@ -356,6 +371,10 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
+    updateAppType: (state, payload) => {
+      state.appType = payload
+      state.thisGame = payload
+    },
     updateCurrentTab: (state, payload) => {
       state.currentTab = payload
     },
@@ -454,6 +473,9 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    updateAppType: ({ commit }, payload) => {
+      commit('updateAppType', payload)
+    },
     updateCurrentTab: ({ commit }, payload) => {
       commit('updateCurrentTab', payload)
     },

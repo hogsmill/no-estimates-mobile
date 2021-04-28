@@ -24,6 +24,8 @@
 <script>
 import bus from './socket.js'
 
+import params from './lib/params.js'
+
 import Intro from './components/Intro.vue'
 import Setup from './components/Setup.vue'
 import Header from './components/Header.vue'
@@ -65,8 +67,17 @@ export default {
     }
   },
   created() {
-    const gameName = localStorage.getItem('gameName-' + lsSuffix)
-    const teamName = localStorage.getItem('teamName-' + lsSuffix)
+    let appType = 'No Estimates'
+    if (process.env.VUE_APP_TYPE) {
+      appType = process.env.VUE_APP_TYPE
+    } else if (params.getParam('appType')) {
+      // To allow appType switching in dev
+      appType = params.getParam('appType')
+    }
+    this.$store.dispatch('updateAppType', appType)
+
+    const gameName = localStorage.getItem('gameName-' + this.lsSuffix)
+    const teamName = localStorage.getItem('teamName-' + this.lsSuffix)
     if (gameName && teamName) {
       this.$store.dispatch('updateGameName', gameName)
       bus.$emit('sendLoadGame', {gameName: gameName})
@@ -74,7 +85,7 @@ export default {
       bus.$emit('sendLoadTeam', {gameName: gameName, teamName, teamName})
     }
 
-    const myName = localStorage.getItem('myName-' + lsSuffix)
+    const myName = localStorage.getItem('myName-' + this.lsSuffix)
     if (myName) {
       this.$store.dispatch('updateMyName', JSON.parse(myName))
     }

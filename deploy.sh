@@ -16,9 +16,10 @@ done
 
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=(
-  'no-estimates-mobile,noEstimatesGames,noEstimates,3007,3018'
-  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3021,3020,No Estimates Private,123456'
-  'no-estimates-mobile-bandwidth,noEstimatesBandwidthGames,noEstimatesBandwidth,3023,3022,No Estimates Private,123456'
+  'no-estimates-mobile,noEstimatesGames,noEstimates,3007,3018,No Estimates'
+  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3021,3020,No Estimates,No Estimates Private,123456'
+  'no-estimates-mobile-bandwidth,noEstimatesBandwidthGames,noEstimatesBandwidth,3023,3022,No Estimates,No Estimates Private,123456'
+  'kanban-playground-mobile,kanbanPlaygroundGames,kanbanPlayground,3030,3031,Kanban Playground'
 )
 
 for ((i = 0; i < ${#APPS[@]}; i++))
@@ -30,14 +31,15 @@ do
   GAMECOLLECTION=`echo $REC | cut -d, -f3`
   PORT=`echo $REC | cut -d, -f4`
   GAMEPORT=`echo $REC | cut -d, -f5`
-  APPNAME=`echo $REC | cut -d, -f6`
-  PASSWORD=`echo $REC | cut -d, -f7`
+  APPTYPE=`echo $REC | cut -d, -f6`
+  APPNAME=`echo $REC | cut -d, -f7`
+  PASSWORD=`echo $REC | cut -d, -f8`
 
   echo "------------------------------------------------"
   if [ -z "$APPNAME" ]; then
-    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMEPORT)"
+    echo "Installing $APPTYPE:$APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMEPORT)"
   else
-    echo "Installing $APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMEPORT, $APPNAME, $PASSWORD)"
+    echo "Installing $APPTYPE:$APP ($COLLECTION, $GAMECOLLECTION, $PORT, $GAMEPORT, $APPNAME, $PASSWORD)"
   fi
   echo "------------------------------------------------"
 
@@ -47,6 +49,7 @@ do
   fi
   ENVFILE="$DIR/.env"
   echo "VUE_APP_PORT=$PORT" > $ENVFILE
+  echo "VUE_APP_TYPE=$APPTYPE" >> $ENVFILE
   echo "VUE_APP_GAME_PORT=$GAMEPORT" >> $ENVFILE
   echo "VUE_APP_COLLECTION=$COLLECTION" >> $ENVFILE
   echo "VUE_APP_GAME_COLLECTION=$GAMECOLLECTION" >> $ENVFILE

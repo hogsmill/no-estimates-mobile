@@ -121,28 +121,28 @@ export default {
     setGameName() {
       const gameName = document.getElementById('available-games').value
       if (gameName) {
-        localStorage.setItem('gameName', gameName)
+        localStorage.setItem('gameName-' + lsSuffix, gameName)
         this.$store.dispatch('updateGameName', gameName)
         bus.$emit('sendLoadGame', {gameName: gameName})
       } else {
-        localStorage.removeItem('gameName', '')
+        localStorage.removeItem('gameName-' + lsSuffix)
         this.$store.dispatch('updateGameName', '')
-        localStorage.removeItem('teamName', '')
+        localStorage.removeItem('teamName-' + lsSuffix)
         this.$store.dispatch('updateTeamName', '')
-        localStorage.removeItem('myName')
+        localStorage.removeItem('myName-' + lsSuffix)
         this.$store.dispatch('updateMyName', {})
       }
     },
     setTeamName() {
       const teamName = document.getElementById('team-name').value
       if (teamName) {
-        localStorage.setItem('teamName', teamName)
+        localStorage.setItem('teamName-' + lsSuffix, teamName)
         this.$store.dispatch('updateTeamName', teamName)
         bus.$emit('sendLoadTeam', {gameName: this.gameName, teamName: teamName})
       } else {
-        localStorage.removeItem('teamName', teamName)
+        localStorage.removeItem('teamName-' + lsSuffix)
         this.$store.dispatch('updateTeamName', teamName)
-        localStorage.removeItem('myName')
+        localStorage.removeItem('myName-' + lsSuffix)
         this.$store.dispatch('updateMyName', {})
       }
     },
@@ -152,10 +152,10 @@ export default {
         const myName = this.members.find(function(m) {
           return m.id == memberId
         })
-        localStorage.setItem('myName', JSON.stringify(myName))
+        localStorage.setItem('myName-' + lsSuffix, JSON.stringify(myName))
         this.$store.dispatch('updateMyName', myName)
       } else {
-        localStorage.removeItem('myName')
+        localStorage.removeItem('myName-' + lsSuffix)
         this.$store.dispatch('updateMyName', {})
       }
     },
@@ -165,7 +165,7 @@ export default {
         name: document.getElementById('my-name').value,
         captain: false
       }
-      localStorage.setItem('myName', JSON.stringify(myName))
+      localStorage.setItem('myName-' + lsSuffix, JSON.stringify(myName))
       this.$store.dispatch('updateMyName', myName)
       bus.e$mit('sendAddMyName', {gameName: this.gameName, teamName: this.teamName, myName: myName})
     },

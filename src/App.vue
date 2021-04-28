@@ -48,6 +48,9 @@ export default {
     }
   },
   computed: {
+    lsSuffix() {
+      return this.$store.getters.lsSuffix
+    },
     gameName() {
       return this.$store.getters.getGameName
     },
@@ -62,8 +65,8 @@ export default {
     }
   },
   created() {
-    const gameName = localStorage.getItem('gameName')
-    const teamName = localStorage.getItem('teamName')
+    const gameName = localStorage.getItem('gameName-' + lsSuffix)
+    const teamName = localStorage.getItem('teamName-' + lsSuffix)
     if (gameName && teamName) {
       this.$store.dispatch('updateGameName', gameName)
       bus.$emit('sendLoadGame', {gameName: gameName})
@@ -71,7 +74,7 @@ export default {
       bus.$emit('sendLoadTeam', {gameName: gameName, teamName, teamName})
     }
 
-    const myName = localStorage.getItem('myName')
+    const myName = localStorage.getItem('myName-' + lsSuffix)
     if (myName) {
       this.$store.dispatch('updateMyName', JSON.parse(myName))
     }

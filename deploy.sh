@@ -29,8 +29,8 @@ do
   APP=`echo $REC | cut -d, -f1`
   GAMECOLLECTION=`echo $REC | cut -d, -f2`
   COLLECTION=`echo $REC | cut -d, -f3`
-  PORT=`echo $REC | cut -d, -f4`
-  GAMEPORT=`echo $REC | cut -d, -f5`
+  GAMEPORT=`echo $REC | cut -d, -f4`
+  PORT=`echo $REC | cut -d, -f5`
   APPTYPE=`echo $REC | cut -d, -f6`
   APPNAME=`echo $REC | cut -d, -f7`
   PASSWORD=`echo $REC | cut -d, -f8`

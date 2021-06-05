@@ -17,9 +17,9 @@ done
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=(
   'no-estimates-mobile,noEstimatesGames,noEstimates,3007,3018,No Estimates'
-  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3021,3020,No Estimates,No Estimates Private,123456'
-  'no-estimates-mobile-bandwidth,noEstimatesBandwidthGames,noEstimatesBandwidth,3023,3022,No Estimates,No Estimates Private,123456'
-  'kanban-playground-mobile,kanbanPlaygroundGames,kanbanPlayground,3030,3031,Kanban Playground'
+  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,3021,No Estimates,No Estimates Private,123456'
+  'no-estimates-mobile-bandwidth,noEstimatesBandwidthGames,noEstimatesBandwidth,3022,3023,No Estimates,No Estimates Private,123456'
+  'kanban-playground-mobile,kanbanPlaygroundGames,kanbanPlayground,3031,3030,Kanban Playground'
 )
 
 for ((i = 0; i < ${#APPS[@]}; i++))

@@ -1,9 +1,16 @@
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+
 const fs = require('fs')
 const ON_DEATH = require('death')({uncaughtException: true})
 const os = require('os')
 const prod = os.hostname() == 'agilesimulations' ? true : false
 
+const port = prod ? process.env.VUE_APP_PORT : 3007
 const logFile = prod ? process.argv[4] : 'server.log'
+const gamesCollection =  prod ? process.env.VUE_APP_GAME_COLLECTION : 'noEstimatesGames'
+const gameCollection =  prod ? process.env.VUE_APP_COLLECTION : 'noEstimates'
+
 
 ON_DEATH(function(signal, err) {
   let logStr = new Date()
@@ -69,6 +76,12 @@ function emit(event, data) {
 MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime }, function (err, client) {
   if (err) throw err
   const db = client.db('db')
+
+  db.createCollection(gameCollection, function(error, collection) {})
+  db.createCollection(gamesCollection, function(error, collection) {})
+
+  db.gameCollection = db.collection(gameCollection)
+  db.gamesCollection = db.collection(gamesCollection)
 
   io.on('connection', (socket) => {
     const connection = socket.handshake.headers.host

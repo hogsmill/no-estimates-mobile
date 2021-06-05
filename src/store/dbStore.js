@@ -6,7 +6,7 @@ function _getGames(db, io, data, debugOn) {
 
   if (debugOn) { console.log('getGames') }
 
-  db.collection('noEstimatesGames').find().toArray(function(err, res) {
+  db.gamesCollection.find().toArray(function(err, res) {
     if (err) throw err
     if (res.length) {
       delete res._id
@@ -18,7 +18,7 @@ function _getGames(db, io, data, debugOn) {
 function updateTeam(db, io, res) {
   const id = res._id
   delete res._id
-  db.collection('noEstimates').updateOne({'_id': id}, {$set: res}, function(err) {
+  db.gameCollection.updateOne({'_id': id}, {$set: res}, function(err) {
     if (err) throw err
     io.emit('loadTeam', res)
     gameState.update(db, io, res)
@@ -35,7 +35,7 @@ module.exports = {
 
     if (debugOn) { console.log('loadGame', data) }
 
-    db.collection('noEstimatesGames').findOne({gameName: data.gameName}, function(err, res) {
+    db.gamesCollection.findOne({gameName: data.gameName}, function(err, res) {
       if (err) throw err
       if (res) {
         console.log('Loading game \'' + data.gameName + '\'')
@@ -48,7 +48,7 @@ module.exports = {
 
     if (debugOn) { console.log('loadTeam', data) }
 
-    db.collection('noEstimates').findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
+    db.gameCollection.findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
       if (err) throw err
       if (res) {
         console.log('Loading team \'' + data.gameName + ' - ' + data.teamName + '\'')
@@ -61,7 +61,7 @@ module.exports = {
 
     if (debugOn) { console.log('addMyName', data) }
 
-    db.collection('noEstimates').findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
+    db.gameCollection.findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
       if (err) throw err
       if (res) {
         const member = data.myName
@@ -77,7 +77,7 @@ module.exports = {
 
     if (debugOn) { console.log('setMyRole', data) }
 
-    db.collection('noEstimates').findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
+    db.gameCollection.findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
       if (err) throw err
       if (res) {
         const members = []
@@ -98,7 +98,7 @@ module.exports = {
 
     if (debugOn) { console.log('makeCaptain', data) }
 
-    db.collection('noEstimates').findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
+    db.gameCollection.findOne({gameName: data.gameName, teamName: data.teamName}, function(err, res) {
       if (err) throw err
       if (res) {
         const members = []

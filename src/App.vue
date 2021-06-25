@@ -4,6 +4,7 @@
       <i class="fas fa-user-friends" :class="{' selected': screen == 'thisTeam' }" @click="setScreen('thisTeam')" />
       <i class="fas fa-users" :class="{' selected': screen == 'otherTeams' }" @click="setScreen('otherTeams')" />
       <i class="fas fa-industry" v-if="capabilities && capabilities.autoDeploy.doing" :class="{' selected': screen == 'autoDeploy' }" @click="setScreen('autoDeploy')" />
+      <ClearStorage />
       <i class="fas fa-cog" @click="toggleSettings()" />
     </div>
     <div v-if="showSettings" class="setup rounded-bottom">
@@ -29,6 +30,7 @@ import params from './lib/params.js'
 import Intro from './components/Intro.vue'
 import Setup from './components/Setup.vue'
 import Header from './components/Header.vue'
+import ClearStorage from './components/ClearStorage.vue'
 import Game from './components/Game.vue'
 import GameOther from './components/GameOther.vue'
 import AutoDeploy from './components/AutoDeploy.vue'
@@ -39,6 +41,7 @@ export default {
     Intro,
     Setup,
     Header,
+    ClearStorage,
     Game,
     GameOther,
     AutoDeploy

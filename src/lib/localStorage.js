@@ -24,6 +24,7 @@ const LocalStorage = {
     for (let i = 0; i < localStorage.length; i++) {
       if (localStorage.key(i).match(expr)) {
         console.log('deleting', localStorage.key(i))
+        localStorage.removeItem(localStorage.key(i))
       }
     }
   }

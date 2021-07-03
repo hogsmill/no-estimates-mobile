@@ -20,7 +20,7 @@ const Mail = {
           type: 'GET',
           url: 'https://agilesimulations.co.uk/mail.php',
           data: data,
-          success: function() {
+          success: () => {
             alert(message)
           }
       })

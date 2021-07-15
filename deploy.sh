@@ -18,7 +18,7 @@ REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 APPS=(
   'no-estimates-mobile,noEstimatesGames,noEstimates,3007,3018,No Estimates'
   'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,3021,No Estimates,No Estimates Private'
-  'no-estimates-mobile-bandwidth,noEstimatesBandwidthGames,noEstimatesBandwidth,3022,3023,No Estimates,No Estimates Private'
+  'no-estimates-mobile-dex,noEstimatesDexGames,noEstimatesDex,3052,3053,No Estimates,No Estimates Dex'
   'kanban-playground-mobile,kanbanPlaygroundGames,kanbanPlayground,3030,3031,Kanban Playground'
 )
 

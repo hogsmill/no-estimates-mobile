@@ -1,15 +1,15 @@
 #!/bin/bash
 
 FORCE=false
-OUTDATED=true
+NEW=false
 while [ $1 ]
 do
   echo $1
   if [ "$1" == "-f" ]; then
     FORCE=true
   fi
-  if [ "$1" == "-o" ]; then
-    OUTDATED=false
+  if [ "$1" == "-n" ]; then
+    NEW=true
   fi
   shift
 done
@@ -61,6 +61,11 @@ do
   fi
 
   cd $DIR
+  if [ "$NEW" == "true" ]
+  then
+    rm $DIR/package-lock.json
+    rm -rf $DIR/node_modules
+  fi
 
   PWD=`pwd`
   APP=`basename $PWD`
@@ -96,6 +101,7 @@ do
 
 done
 
-if [ "$OUTDATED" == "true" ]; then
+ps -ef | grep php | grep outdated
+if [ $? -eq 1 ]; then
   php /usr/apps/monitor/src/lib/outdated.php &
 fi

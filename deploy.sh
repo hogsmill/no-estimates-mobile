@@ -22,7 +22,7 @@ APPS=(
   'no-estimates-mobile-dex,noEstimatesDexGames,noEstimatesDex,3051,3052,No Estimates,No Estimates Dex'
   'no-estimates-mobile-ratesetter,noEstimatesRateSetterGames,noEstimatesRateSetter,3057,3073,No Estimates,No Estimates Ratesetter'
   'no-estimates-mobile-eagile,noEstimatesEverydayAgileGames,noEstimatesEverydayAgile,3065,3075,No Estimates,No Estimates Everyday Agile'
-  'no-estimates-mobile-and,noEstimatesAndGames,noEstimatesAnd,3102,3103,No Estimates,No Estimates AND'
+  'no-estimates-mobile-and,noEstimatesAndGames,noEstimatesAnd,3102,3114,No Estimates,No Estimates AND'
   'kanban-playground-mobile,kanbanPlaygroundGames,kanbanPlayground,3030,3031,Kanban Playground'
   'kanban-playground-mobile-ratesetter,kanbanPlaygroundRateSetterGames,kanbanPlaygroundRateSetter,3058,3074,Kanban Playground'
   'kanban-playground-mobile-eagile,kanbanPlaygroundEverydayAgileGames,kanbanPlaygroundEverydayAgile,3066,3076,Kanban Playground'

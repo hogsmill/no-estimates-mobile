@@ -22,6 +22,9 @@ MAINKANBANAPP="kanban-playground-mobile"
 MAINKANBANCOLLECTION="kanbanPlayground"
 MAINKANBANGAMECOLLECTION="kanbanPlaygroundGames"
 MAINKANBANAPPNAME="Kanban Playground"
+
+# Note: Thes e*must* be the same as noestimates routes to calculate GAMEPORT correctly
+
 ROUTES=(
   '','','No Estimates'
   'new','New','No Estimates'
@@ -72,6 +75,7 @@ do
     GAMECOLLECTION="${GAMECOLLECTION}${COLLECTIONSUFFIX}"
   fi
   let PORT=$BASEPORT+$i
+  let GAMEPORT=$PORT-100
 
 #REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 #MAINAPP="no-estimates-mobile"

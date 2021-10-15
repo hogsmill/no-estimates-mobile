@@ -166,7 +166,7 @@ do
       rm -rf $DIR/node_modules/.cache
     else
       rm -rf node_modules
-      ln -s ../$MAINAPP/node_modules node_modules
+      ln -s ../$BASEAPP/node_modules node_modules
     fi
     rm -rf $DIR/dist
 done

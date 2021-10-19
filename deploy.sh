@@ -34,6 +34,7 @@ ROUTES=(
   'ratesetter','Ratesetter','No Estimates'
   'eagile','EverydayAgile','No Estimates'
   'and','And','No Estimates'
+  'richemont','Richemont','No Estimates'
   '','','Kanban Playground'
   'new','New','Kanban Playground'
   'dex','Dex','Kanban Playground'
@@ -42,6 +43,7 @@ ROUTES=(
   'ratesetter','Ratesetter','Kanban Playground'
   'eagile','EverydayAgile','Kanban Playground'
   'and','And','Kanban Playground'
+  'richemont','Richemont','Kanban Playground'
 )
 
 for ((i = 0; i < ${#ROUTES[@]}; i++))
@@ -76,33 +78,6 @@ do
   fi
   let PORT=$BASEPORT+$i
   let GAMEPORT=$PORT-100
-
-#REPO="https://github.com/hogsmill/no-estimates-mobile.git"
-#MAINAPP="no-estimates-mobile"
-#APPS=(
-#  'no-estimates-mobile,noEstimatesGames,noEstimates,3007,3018,No Estimates'
-#  'no-estimates-mobile-new,noEstimatesNewGames,noEstimatesNew,3020,3021,No Estimates,No Estimates Private'
-#  'no-estimates-mobile-dex,noEstimatesDexGames,noEstimatesDex,3051,3052,No Estimates,No Estimates Dex'
-#  'no-estimates-mobile-ratesetter,noEstimatesRateSetterGames,noEstimatesRateSetter,3057,3073,No Estimates,No Estimates Mobile'
-#  'no-estimates-mobile-eagile,noEstimatesEverydayAgileGames,noEstimatesEverydayAgile,3065,3075,No Estimates,No Estimates Mobile'
-#  'no-estimates-mobile-and,noEstimatesAndGames,noEstimatesAnd,3102,3114,No Estimates,No Estimates Mobile'
-#  'kanban-playground-mobile,kanbanPlaygroundGames,kanbanPlayground,3030,3031,Kanban Playground'
-#  'kanban-playground-mobile-ratesetter,kanbanPlaygroundRateSetterGames,kanbanPlaygroundRateSetter,3058,3074,Kanban Playground Mobile'
-#  'kanban-playground-mobile-eagile,kanbanPlaygroundEverydayAgileGames,kanbanPlaygroundEverydayAgile,3066,3076,Kanban Playground Mobile'
-#  'kanban-playground-mobile-and,kanbanPlaygroundAndGames,kanbanPlaygroundAnd,3104,3105,Kanban Playground Mobile'
-#)
-#
-#for ((i = 0; i < ${#APPS[@]}; i++))
-#do
-#  REC="${APPS[$i]}"
-#
-#  APP=`echo $REC | cut -d, -f1`
-#  GAMECOLLECTION=`echo $REC | cut -d, -f2`
-#  COLLECTION=`echo $REC | cut -d, -f3`
-#  GAMEPORT=`echo $REC | cut -d, -f4`
-#  PORT=`echo $REC | cut -d, -f5`
-#  APPTYPE=`echo $REC | cut -d, -f6`
-#  APPNAME=`echo $REC | cut -d, -f7`
 
   echo "------------------------------------------------"
   if [ -z "$APPNAME" ]; then

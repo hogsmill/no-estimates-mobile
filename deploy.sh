@@ -11,7 +11,7 @@ do
   shift
 done
 
-BASEPORT=4500
+BASEPORT=4400
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 BASEAPP="no-estimates-mobile"
 MAINNOESTIMATESAPP="no-estimates-mobile"

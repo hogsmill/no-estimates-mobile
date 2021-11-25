@@ -77,7 +77,7 @@ do
     GAMECOLLECTION="${GAMECOLLECTION}${COLLECTIONSUFFIX}"
   fi
   let PORT=$BASEPORT+$i
-  let GAMEPORT=$PORT-100
+  let GAMEPORT=$PORT-150
 
   echo "------------------------------------------------"
   if [ -z "$APPNAME" ]; then

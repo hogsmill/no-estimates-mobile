@@ -11,7 +11,7 @@ do
   shift
 done
 
-BASEPORT=4400
+BASEPORT=4450
 REPO="https://github.com/hogsmill/no-estimates-mobile.git"
 BASEAPP="no-estimates-mobile"
 MAINNOESTIMATESAPP="no-estimates-mobile"
@@ -77,7 +77,7 @@ do
     GAMECOLLECTION="${GAMECOLLECTION}${COLLECTIONSUFFIX}"
   fi
   let PORT=$BASEPORT+$i
-  let GAMEPORT=$PORT-150
+  let GAMEPORT=$PORT-100
 
   echo "------------------------------------------------"
   if [ -z "$APPNAME" ]; then

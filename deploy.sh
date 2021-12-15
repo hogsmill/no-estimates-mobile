@@ -35,6 +35,7 @@ ROUTES=(
   'eagile','EverydayAgile','No Estimates'
   'and','And','No Estimates'
   'richemont','Richemont','No Estimates'
+  'bud','Bud','No Estimates'
   '','','Kanban Playground'
   'new','New','Kanban Playground'
   'dex','Dex','Kanban Playground'
@@ -44,6 +45,7 @@ ROUTES=(
   'eagile','EverydayAgile','Kanban Playground'
   'and','And','Kanban Playground'
   'richemont','Richemont','Kanban Playground'
+  'bud','Bud','Kanban Playground'
 )
 
 for ((i = 0; i < ${#ROUTES[@]}; i++))

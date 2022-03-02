@@ -83,9 +83,9 @@ export default {
     const teamName = localStorage.getItem('teamName-' + this.lsSuffix)
     if (gameName && teamName) {
       this.$store.dispatch('updateGameName', gameName)
-      bus.$emit('sendLoadGame', {gameName: gameName})
+      bus.emit('sendLoadGame', {gameName: gameName})
       this.$store.dispatch('updateTeamName', teamName)
-      bus.$emit('sendLoadTeam', {gameName: gameName, teamName, teamName})
+      bus.emit('sendLoadTeam', {gameName: gameName, teamName, teamName})
     }
 
     const myName = localStorage.getItem('myName-' + this.lsSuffix)
@@ -93,17 +93,17 @@ export default {
       this.$store.dispatch('updateMyName', JSON.parse(myName))
     }
 
-    bus.$on('loadGameMobile', (data) => {
+    bus.on('loadGameMobile', (data) => {
       this.$store.dispatch('loadGame', data)
     })
 
-    bus.$on('loadTeamMobile', (data) => {
+    bus.on('loadTeamMobile', (data) => {
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
         this.$store.dispatch('loadTeam', data)
       }
     })
 
-    bus.$on('loadTeam', (data) => {
+    bus.on('loadTeam', (data) => {
       if (this.gameName == data.gameName && this.teamName == data.teamName) {
         this.$store.dispatch('loadTeam', data)
       }

@@ -114,11 +114,11 @@ export default {
     }
   },
   created() {
-    bus.$on('updateGames', (data) => {
+    bus.on('updateGames', (data) => {
       this.$store.dispatch('updateGames', data)
     })
 
-    bus.$emit('sendGetGames')
+    bus.emit('sendGetGames')
   },
   methods: {
     setGameName() {
@@ -126,7 +126,7 @@ export default {
       if (gameName) {
         localStorage.setItem('gameName-' + this.lsSuffix, gameName)
         this.$store.dispatch('updateGameName', gameName)
-        bus.$emit('sendLoadGame', {gameName: gameName})
+        bus.emit('sendLoadGame', {gameName: gameName})
       } else {
         localStorage.removeItem('gameName-' + this.lsSuffix)
         this.$store.dispatch('updateGameName', '')
@@ -141,7 +141,7 @@ export default {
       if (teamName) {
         localStorage.setItem('teamName-' + this.lsSuffix, teamName)
         this.$store.dispatch('updateTeamName', teamName)
-        bus.$emit('sendLoadTeam', {gameName: this.gameName, teamName: teamName})
+        bus.emit('sendLoadTeam', {gameName: this.gameName, teamName: teamName})
       } else {
         localStorage.removeItem('teamName-' + this.lsSuffix)
         this.$store.dispatch('updateTeamName', teamName)
@@ -175,7 +175,7 @@ export default {
     selectMyRole() {
       const myRole = document.getElementById('role-name').value
       if (myRole) {
-        bus.$emit('sendSetMyRole', {gameName: this.gameName, teamName: this.teamName, myName: this.myName, myRole: myRole})
+        bus.emit('sendSetMyRole', {gameName: this.gameName, teamName: this.teamName, myName: this.myName, myRole: myRole})
       }
     }
   }

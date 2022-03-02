@@ -176,8 +176,8 @@ export default {
       } else {
         const str = 'Adding effort to card #' + card.number + ' in ' + column
         alert(str)
-        bus.$emit('emitUpdatePersonEffort', {gameName: this.gameName, teamName: this.teamName, workCard: card, name: this.myName, column: column})
-        bus.$emit('sendUpdateEffort', {
+        bus.emit('emitUpdatePersonEffort', {gameName: this.gameName, teamName: this.teamName, workCard: card, name: this.myName, column: column})
+        bus.emit('sendUpdateEffort', {
           gameName: this.gameName,
           teamName: this.teamName,
           name: this.myName,

@@ -8,7 +8,7 @@ module.exports = {
       // override/add rules settings here, such as:
       'no-redeclare': 'warn',
       'no-undef': 'error',
-      'no-unused-vars': 'error',
+      //'no-unused-vars': 'error',
       'no-var': 'error',
       'prefer-const': 'error',
       'vue/require-prop-types': 'off',
@@ -21,12 +21,17 @@ module.exports = {
        }],
       'vue/max-attributes-per-line': ['error', {
         'singleline': 8,
-        'multiline': {
-          'max': 3,
-          'allowFirstLine': true
-        }
+        'multiline': 3
       }]
     },
+    'overrides': [
+      {
+        'files': ['src/**/*.vue'],
+        'rules': {
+          'vue/multi-word-component-names': 0
+        },
+      }
+    ],
     'globals': {
         'require': true,
         'module': true,
